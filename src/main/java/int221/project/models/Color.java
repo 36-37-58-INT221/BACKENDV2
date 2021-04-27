@@ -1,17 +1,19 @@
 package int221.project.models;
 
+import java.util.List;
+
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Color {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String colorId;
 	private String colorCode;
+	@OneToMany(mappedBy = "color")
+	private List<HaveColor> haveColor;
 
 	public Color() {
 	};

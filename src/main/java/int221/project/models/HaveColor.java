@@ -1,53 +1,80 @@
 package int221.project.models;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+//import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Entity
 public class HaveColor {
+
+	@EmbeddedId
+	HaveColor id;
+	@ManyToOne
+    @MapsId("productId")
+//    @JoinColumn(name = "student_id")
+    Product product;
+
+    @ManyToOne
+    @MapsId("colorId")
+//    @JoinColumn(name = "course_id")
+    Color color;
+
+    String imageSrc;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@JoinColumn(name = "colorId", referencedColumnName = "colorId")
-	@JoinColumn(name = "productId", referencedColumnName = "productId")
-	private String haveColorId;
-	private String colorId;
-	private String productId;
-
+	
+	
 	public HaveColor() {
-	};
+		
+		}
 
-	public HaveColor(String haveColorId, String colorId, String productId) {
-		this.haveColorId = haveColorId;
-		this.colorId = colorId;
-		this.productId = productId;
+	
+
+	public HaveColor getId() {
+		return id;
 	}
 
-	public String getHaveColorId() {
-		return haveColorId;
+
+
+	public void setId(HaveColor id) {
+		this.id = id;
 	}
 
-	public void setHaveColorId(String haveColorId) {
-		this.haveColorId = haveColorId;
+
+
+	public Product getStudent() {
+		return product;
 	}
 
-	public String getColorId() {
-		return colorId;
+
+
+	public void setStudent(Product product) {
+		this.product = product;
 	}
 
-	public void setColorId(String colorId) {
-		this.colorId = colorId;
+
+
+	public Color getColor() {
+		return color;
 	}
 
-	public String getProductId() {
-		return productId;
+
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
-	public void setProductId(String productId) {
-		this.productId = productId;
+
+
+	public String getImageSrc() {
+		return imageSrc;
 	}
 
-}
+
+
+	public void setImageSrc(String imageSrc) {
+		this.imageSrc = imageSrc;
+	}
+	
+	}
