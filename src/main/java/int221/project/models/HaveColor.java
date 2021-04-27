@@ -1,13 +1,16 @@
 package int221.project.models;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 
 @Entity
 public class HaveColor {
-
+	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@JoinColumn(name = "colorId", referencedColumnName = "colorId")
 	@JoinColumn(name = "productId", referencedColumnName = "productId")
 	private String haveColorId;

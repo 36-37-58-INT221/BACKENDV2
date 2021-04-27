@@ -63,7 +63,6 @@ public class ProductsRestController {
 	
 	@GetMapping("/products/{code}")
 	public Product show(@PathVariable String code) {
-
 		return productsJpaRepository.findById(code).orElse(null);
 	}
 

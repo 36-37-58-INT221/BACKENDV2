@@ -2,8 +2,11 @@ package int221.project.models;
 
 import java.sql.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,12 +15,14 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Product {
 
 	@Id
-	@JoinColumn(name = "brandfk", referencedColumnName = "brandId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JoinColumn(name = "brandId", referencedColumnName = "brandId")
 
 	private String productId;
 	private String name;
@@ -25,24 +30,27 @@ public class Product {
 	private int price;
 	private Date manufactureDate;
 	private String picPath;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 //	@JoinColumn(name = "post_id", nullable = false)
 //	@OnDelete(action = OnDeleteAction.CASCADE)
 //	@JsonIgnore
-	private Brand brand;
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "brandid", nullable = false)
+	private Brand brandId;
+
 
 	public Product() {
 	};
 
 	public Product(String productId, String name, String description, int price, Date manufactureDate, String picPath,
-			Brand brand) {
+			Brand brandId) {
 		this.productId = productId;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.manufactureDate = manufactureDate;
 		this.picPath = picPath;
-		this.brand = brand;
+		this.brandId = brandId;
 	}
 
 	public String getProductId() {
@@ -94,14 +102,11 @@ public class Product {
 	}
 
 	public Brand getBrand() {
-		return brand;
+		return brandId;
 	}
 
 	public void setBrand(Brand brand) {
-		this.brand = brand;
+		this.brandId = brand;
 	}
-
-
-	
 
 }
