@@ -3,10 +3,15 @@ package int221.project.models;
 import java.sql.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Product {
@@ -21,14 +26,18 @@ public class Product {
 	private String description;
 	private Date manufactureDate;
 	private String picPath;
-	private String brandfk;
-	private String haveId;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	@JoinColumn(name = "post_id", nullable = false)
+//	@OnDelete(action = OnDeleteAction.CASCADE)
+//	@JsonIgnore
+	private Brand brand;
+	private HaveColor haveColor;
 
 	public Product() {
 	};
 
 	public Product(String productId, String name, int price, String description, Date manufactureDate, String picPath,
-			String brandfk, String haveId) {
+			Brand brand, HaveColor haveId) {
 		super();
 		this.productId = productId;
 		this.name = name;
@@ -36,8 +45,8 @@ public class Product {
 		this.description = description;
 		this.manufactureDate = manufactureDate;
 		this.picPath = picPath;
-		this.brandfk = brandfk;
-		this.haveId = haveId;
+		this.brand = brand;
+		this.haveColor = haveId;
 	}
 
 	public String getProductId() {
@@ -88,20 +97,22 @@ public class Product {
 		this.picPath = picPath;
 	}
 
-	public String getBrandfk() {
-		return brandfk;
+	public Brand getBrand() {
+		return brand;
 	}
 
-	public void setBrandfk(String brandfk) {
-		this.brandfk = brandfk;
+	public void setBrand(Brand brand) {
+		this.brand = brand;
 	}
 
-	public String getHaveId() {
-		return haveId;
+	public HaveColor getHaveColor() {
+		return haveColor;
 	}
 
-	public void setHaveId(String haveId) {
-		this.haveId = haveId;
+	public void setHaveColor(HaveColor haveColor) {
+		this.haveColor = haveColor;
 	}
+
+	
 
 }
