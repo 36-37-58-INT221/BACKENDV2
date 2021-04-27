@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import int221.project.models.Product;
 
 public interface ProductsJpaRepository extends JpaRepository<Product, String> {
-//	String findByProductIsNull(String productId);
-	
+//	List<Product> findByProductIdAndProductIdNull(String id);
 	
 }

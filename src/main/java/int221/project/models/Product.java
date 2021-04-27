@@ -32,7 +32,7 @@ public class Product {
 	private String description;
 	private int price;
 	private Date manufactureDate;
-	private String picPath;
+	private String pathPic;
 //	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 //	@JoinColumn(name = "post_id", nullable = false)
 //	@OnDelete(action = OnDeleteAction.CASCADE)
@@ -48,14 +48,14 @@ public class Product {
 	public Product() {
 	};
 
-	public Product(String productId, String name, String description, int price, Date manufactureDate, String picPath,
+	public Product(String productId, String name, String description, int price, Date manufactureDate, String pathPic,
 			Brand brand) {
 		this.productId = productId;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.manufactureDate = manufactureDate;
-		this.picPath = picPath;
+		this.pathPic = pathPic;
 		this.brand = brand;
 	}
 
@@ -100,11 +100,11 @@ public class Product {
 	}
 
 	public String getPicPath() {
-		return picPath;
+		return pathPic;
 	}
 
 	public void setPicPath(String picPath) {
-		this.picPath = picPath;
+		this.pathPic = picPath;
 	}
 
 	public Brand getBrand() {

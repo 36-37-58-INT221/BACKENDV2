@@ -38,7 +38,6 @@ public class ProductsRestController {
 	@Autowired
 	ExtendService ES;
 
-
 //	@RequestMapping // รับrequestทุกชนิด
 //	public String request() {
 //		
@@ -60,25 +59,29 @@ public class ProductsRestController {
 	public List<Product> getAllProduct() {
 		return productsJpaRepository.findAll();
 	};
-	
-	@GetMapping("/products/{code}")
-	public Product show(@PathVariable String code) {
-		return productsJpaRepository.findById(code).orElse(null);
-	}
+
+	@GetMapping("/products/{id}")
+	public Product show(@PathVariable String id) {
+		if (productsJpaRepository.findById(id).isEmpty()) {
+			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
+					"id: {" + id + "} Does not fine Id!!");
+		}
+		return productsJpaRepository.findById(id).orElse(null);
+	};
 
 	@PostMapping("/form") // รับแบบPost
 	public String post(Product product) {
-		productsJpaRepository.save(product);
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
+		productsJpaRepository.save(product);
 		return product.getProductId();
 	};
 
 	@PutMapping("/products/put/{id}") // รับแบบPut
 	public Product put(@RequestParam Product product, @PathVariable String id) {
-		if (productsJpaRepository.findById(id) == null) {
+		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
@@ -86,18 +89,18 @@ public class ProductsRestController {
 		return product;
 	};
 
-//	@DeleteMapping("/products/delete/{id}") // รับแบบDelete
-//	public void delete(@PathVariable String id) {
-//		if (productsJpaRepository.findByProductIsNull(id) == null) {
-//			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID, "Does not fine Id!!");
-//		}
-//		for (int i = 0; i < productsJpaRepository.findAll().size(); i++) {
-//			if (productsJpaRepository.findById(id).equals(id)) {
-//				productsJpaRepository.deleteById(id);
-//				break;
-//			}
-//		}
-//	};
+	@DeleteMapping("/products/delete/{id}") // รับแบบDelete
+	public void delete(@PathVariable String id) {
+		if (productsJpaRepository.findById(id).isEmpty()) {
+			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID, "Does not fine Id!!");
+		}
+		for (int i = 0; i < productsJpaRepository.findAll().size(); i++) {
+			if (productsJpaRepository.findById(id).equals(id)) {
+				productsJpaRepository.deleteById(id);
+				break;
+			}
+		}
+	};
 
 	@PostMapping("/uploadImage")
 	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
