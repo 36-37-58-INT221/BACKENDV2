@@ -2,19 +2,27 @@ package int221.project.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-@Entity
-public class Color {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","haveColor"})
+public class Color {
+	
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String colorId;
 	private String colorCode;
-	@OneToMany(mappedBy = "color")
-	private List<HaveColor> haveColor;
 
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "colorId")
+	private List<HaveColor> haveColor;
+	
 	public Color() {
 	};
 
@@ -37,6 +45,14 @@ public class Color {
 
 	public void setColorCode(String colorCode) {
 		this.colorCode = colorCode;
+	}
+
+	public List<HaveColor> getHaveColor() {
+		return haveColor;
+	}
+
+	public void setHaveColor(List<HaveColor> haveColor) {
+		this.haveColor = haveColor;
 	}
 
 }

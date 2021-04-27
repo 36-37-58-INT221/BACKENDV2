@@ -1,55 +1,56 @@
 package int221.project.models;
 
 import java.sql.Date;
-import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Product {
 
 	@Id
-	@JoinColumn(name = "brandfk", referencedColumnName = "brandId")
-	@JoinColumn(name = "haveId", referencedColumnName = "haveId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JoinColumn(name = "brandId", referencedColumnName = "brandId")
 
 	private String productId;
 	private String name;
-	private int price;
 	private String description;
+	private int price;
 	private Date manufactureDate;
 	private String picPath;
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 //	@JoinColumn(name = "post_id", nullable = false)
 //	@OnDelete(action = OnDeleteAction.CASCADE)
 //	@JsonIgnore
-	private Brand brand;
-	@OneToMany(mappedBy = "product")
-	private List<HaveColor> haveColor;
-	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "brandid", nullable = false)
+	private Brand brandId;
+
+
 	public Product() {
 	};
 
-	public Product(String productId, String name, int price, String description, Date manufactureDate, String picPath,
-			Brand brand, List<HaveColor> haveId) {
-		super();
+	public Product(String productId, String name, String description, int price, Date manufactureDate, String picPath,
+			Brand brandId) {
 		this.productId = productId;
 		this.name = name;
-		this.price = price;
 		this.description = description;
+		this.price = price;
 		this.manufactureDate = manufactureDate;
 		this.picPath = picPath;
-		this.brand = brand;
-		this.haveColor = haveId;
+		this.brandId = brandId;
 	}
 
 	public String getProductId() {
@@ -101,21 +102,11 @@ public class Product {
 	}
 
 	public Brand getBrand() {
-		return brand;
+		return brandId;
 	}
 
 	public void setBrand(Brand brand) {
-		this.brand = brand;
+		this.brandId = brand;
 	}
-
-	public List<HaveColor> getHaveColor() {
-		return haveColor;
-	}
-
-	public void setHaveColor(List<HaveColor> haveColor) {
-		this.haveColor = haveColor;
-	}
-
-	
 
 }
