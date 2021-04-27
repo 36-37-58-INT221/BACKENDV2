@@ -20,7 +20,7 @@ public class Color {
 	private String colorId;
 	private String colorCode;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "colorId")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "color")
 	private List<HaveColor> haveColor;
 	
 	public Color() {

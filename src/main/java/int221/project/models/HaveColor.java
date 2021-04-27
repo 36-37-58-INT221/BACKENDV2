@@ -1,50 +1,52 @@
 package int221.project.models;
 
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 //import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 
 @Entity
 public class HaveColor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-
-	@EmbeddedId
-	HaveColor id;
-	@ManyToOne
-	@MapsId("productId")
-//    @JoinColumn(name = "student_id")
-	Product product;
+	private String id;
 
 	@ManyToOne
-	@MapsId("colorId")
-//    @JoinColumn(name = "course_id")
-	Color color;
+	@JoinColumn(name = "productId", nullable = false)
+	private Product product;
 
-	String imageSrc;
+	@ManyToOne
+	@JoinColumn(name = "colorId", nullable = false)
+	private Color color;
+
+	private String imageSrc;
 
 	public HaveColor() {
-
 	}
 
-	public HaveColor getId() {
+	public HaveColor(String id, Product product, Color color) {
+		this.id = id;
+		this.product = product;
+		this.color = color;
+	}
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(HaveColor id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
-	public Product getStudent() {
+	public Product getProduct() {
 		return product;
 	}
 
-	public void setStudent(Product product) {
+	public void setProduct(Product product) {
 		this.product = product;
 	}
 
@@ -63,5 +65,7 @@ public class HaveColor {
 	public void setImageSrc(String imageSrc) {
 		this.imageSrc = imageSrc;
 	}
+
+	
 
 }

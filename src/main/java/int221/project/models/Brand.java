@@ -20,7 +20,7 @@ public class Brand {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private String brandId;
 	private String name;
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "brandId") //เป็น bidirectional mapping ที่ map กลับไปยัง table product
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "brand") //เป็น bidirectional mapping ที่ map กลับไปยัง table product
 	private List<Product> products;
 
 	public Brand() {

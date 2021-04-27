@@ -1,6 +1,7 @@
 package int221.project.models;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -18,11 +20,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","haveColor"})
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JoinColumn(name = "brandId", referencedColumnName = "brandId")
+	@JoinColumn(name = "brand", referencedColumnName = "brand")
 
 	private String productId;
 	private String name;
@@ -36,21 +39,24 @@ public class Product {
 //	@JsonIgnore
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "brandid", nullable = false)
-	private Brand brandId;
+	private Brand brand;
+
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "product")
+	private List<HaveColor> haveColor;
 
 
 	public Product() {
 	};
 
 	public Product(String productId, String name, String description, int price, Date manufactureDate, String picPath,
-			Brand brandId) {
+			Brand brand) {
 		this.productId = productId;
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.manufactureDate = manufactureDate;
 		this.picPath = picPath;
-		this.brandId = brandId;
+		this.brand = brand;
 	}
 
 	public String getProductId() {
@@ -102,11 +108,11 @@ public class Product {
 	}
 
 	public Brand getBrand() {
-		return brandId;
+		return brand;
 	}
 
 	public void setBrand(Brand brand) {
-		this.brandId = brand;
+		this.brand = brand;
 	}
 
 }
