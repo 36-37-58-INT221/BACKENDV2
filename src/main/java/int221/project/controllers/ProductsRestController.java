@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import groovyjarjarpicocli.CommandLine.Model;
 import int221.project.exceptions.AllException;
 import int221.project.exceptions.ExceptionResponse;
+import int221.project.models.Brand;
 import int221.project.models.Color;
 import int221.project.models.ExtendService;
 import int221.project.models.Product;
@@ -34,16 +35,6 @@ public class ProductsRestController {
 	BrandJpaRepository brandJpaRepository;
 	ExtendService ES;
 
-	@GetMapping("/products/{code}")
-	public Product show(@PathVariable String code) {
-
-		return productsJpaRepository.findById(code).orElse(null);
-	}
-
-	@GetMapping("/products")
-	public List<Product> allProducts() {
-		return productsJpaRepository.findAll();
-	}
 
 //	@RequestMapping // รับrequestทุกชนิด
 //	public String request() {
@@ -66,6 +57,12 @@ public class ProductsRestController {
 	public List<Product> getAllProduct() {
 		return productsJpaRepository.findAll();
 	};
+	
+	@GetMapping("/products/{code}")
+	public Product show(@PathVariable String code) {
+
+		return productsJpaRepository.findById(code).orElse(null);
+	}
 
 	@PostMapping("/form") // รับแบบPost
 	public String post(Product product) {
@@ -87,18 +84,18 @@ public class ProductsRestController {
 		return product;
 	};
 
-	@DeleteMapping("/products/delete/{id}") // รับแบบDelete
-	public void delete(@PathVariable String id) {
-		if (productsJpaRepository.findByProductIsNull(id) == null) {
-			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID, "Does not fine Id!!");
-		}
-		for (int i = 0; i < productsJpaRepository.findAll().size(); i++) {
-			if (productsJpaRepository.findById(id).equals(id)) {
-				productsJpaRepository.deleteById(id);
-				break;
-			}
-		}
-	};
+//	@DeleteMapping("/products/delete/{id}") // รับแบบDelete
+//	public void delete(@PathVariable String id) {
+//		if (productsJpaRepository.findByProductIsNull(id) == null) {
+//			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID, "Does not fine Id!!");
+//		}
+//		for (int i = 0; i < productsJpaRepository.findAll().size(); i++) {
+//			if (productsJpaRepository.findById(id).equals(id)) {
+//				productsJpaRepository.deleteById(id);
+//				break;
+//			}
+//		}
+//	};
 
 	@PostMapping("/uploadImage")
 	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {

@@ -18,7 +18,6 @@ public class Product {
 
 	@Id
 	@JoinColumn(name = "brandfk", referencedColumnName = "brandId")
-	@JoinColumn(name = "haveId", referencedColumnName = "haveId")
 
 	private String productId;
 	private String name;
@@ -31,14 +30,14 @@ public class Product {
 //	@OnDelete(action = OnDeleteAction.CASCADE)
 //	@JsonIgnore
 	private Brand brand;
-	private HaveColor haveColor;
 
 	public Product() {
 	};
 
+
+
 	public Product(String productId, String name, int price, String description, Date manufactureDate, String picPath,
-			Brand brand, HaveColor haveId) {
-		super();
+			Brand brand) {
 		this.productId = productId;
 		this.name = name;
 		this.price = price;
@@ -46,8 +45,9 @@ public class Product {
 		this.manufactureDate = manufactureDate;
 		this.picPath = picPath;
 		this.brand = brand;
-		this.haveColor = haveId;
 	}
+
+
 
 	public String getProductId() {
 		return productId;
@@ -105,13 +105,6 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public HaveColor getHaveColor() {
-		return haveColor;
-	}
-
-	public void setHaveColor(HaveColor haveColor) {
-		this.haveColor = haveColor;
-	}
 
 	
 
