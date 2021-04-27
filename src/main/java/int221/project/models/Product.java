@@ -21,8 +21,8 @@ public class Product {
 
 	private String productId;
 	private String name;
-	private int price;
 	private String description;
+	private int price;
 	private Date manufactureDate;
 	private String picPath;
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -34,20 +34,16 @@ public class Product {
 	public Product() {
 	};
 
-
-
-	public Product(String productId, String name, int price, String description, Date manufactureDate, String picPath,
+	public Product(String productId, String name, String description, int price, Date manufactureDate, String picPath,
 			Brand brand) {
 		this.productId = productId;
 		this.name = name;
-		this.price = price;
 		this.description = description;
+		this.price = price;
 		this.manufactureDate = manufactureDate;
 		this.picPath = picPath;
 		this.brand = brand;
 	}
-
-
 
 	public String getProductId() {
 		return productId;

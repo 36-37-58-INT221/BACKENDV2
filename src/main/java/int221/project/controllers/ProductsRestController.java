@@ -31,8 +31,11 @@ import java.util.Optional;
 public class ProductsRestController {
 	@Autowired
 	ProductsJpaRepository productsJpaRepository;
+	@Autowired
 	ColorJpaRepository colorJpaRepository;
+	@Autowired
 	BrandJpaRepository brandJpaRepository;
+	@Autowired
 	ExtendService ES;
 
 
@@ -53,7 +56,7 @@ public class ProductsRestController {
 		return brandJpaRepository.findById(brandId).orElse(null);
 	};
 
-	@GetMapping("/products}") // รับแบบget
+	@GetMapping("/products") // รับแบบget
 	public List<Product> getAllProduct() {
 		return productsJpaRepository.findAll();
 	};
