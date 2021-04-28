@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"  })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Product {
 
 	@Id
@@ -36,11 +36,11 @@ public class Product {
 //	@JoinColumn(name = "post_id", nullable = false)
 //	@OnDelete(action = OnDeleteAction.CASCADE)
 //	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "brandid", nullable = false)
 	private Brand brand;
 
-	@OneToMany(cascade=CascadeType.PERSIST,orphanRemoval =true, mappedBy = "product")
+	@OneToMany(orphanRemoval = true, mappedBy = "product")
 	private List<HaveColor> haveColor;
 
 	public Product() {
@@ -120,6 +120,5 @@ public class Product {
 	public void setHaveColor(List<HaveColor> haveColor) {
 		this.haveColor = haveColor;
 	};
-	
-	
+
 }

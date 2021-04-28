@@ -1,6 +1,7 @@
 package int221.project.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,14 +81,34 @@ public class ProductsRestController {
 		return product;
 	};
 
+//	@PutMapping("/products/put/{id}") // รับแบบPut
+//	public Product put(@RequestBody Product product, @PathVariable int id) {
+//		if (productsJpaRepository.findById(id).isEmpty()) {
+//			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
+//					"id: {" + id + "} Does not fine Id!!");
+//		}
+//		ES.updateProduct(id, product);
+//		return product;
+//	};
+
 	@PutMapping("/products/put/{id}") // รับแบบPut
-	public Product put(@RequestParam Product product, @PathVariable int id) {
+	public Product put(@RequestBody Product product, @PathVariable int id) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
-			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
-					"id: {" + product.getProductId() + "} already exist !!");
+			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
+					"id: {" + id + "} Does not fine Id!!");
 		}
-		ES.updateProduct(id, product);
-		return product;
+		Optional<Product> optional = productsJpaRepository.findById(id);
+		if (optional.isPresent()) {
+			Product existedProduct = optional.get();
+			existedProduct.setName(product.getName());
+			existedProduct.setDescription(product.getDescription());
+			existedProduct.setPrice(product.getPrice());
+			existedProduct.setManufactureDate(product.getManufactureDate());
+			existedProduct.setPathPic(product.getPathPic());
+			existedProduct.setBrand(product.getBrand());
+			return productsJpaRepository.save(existedProduct);
+		}
+		return null;
 	};
 
 	@DeleteMapping("/products/{id}") // รับแบบDelete

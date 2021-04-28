@@ -20,7 +20,7 @@ public class Color {
 	private int colorId;
 	private String colorCode;
 
-	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true, mappedBy = "color")
+	@OneToMany( orphanRemoval = true, mappedBy = "color")
 	private List<HaveColor> haveColor;
 
 	public Color() {

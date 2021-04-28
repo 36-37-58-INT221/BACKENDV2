@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-
 @Service
 public class ExtendService {
 	private ProductsJpaRepository productRepository;
@@ -28,14 +27,12 @@ public class ExtendService {
 		Files.write(path, bytes);
 	}
 
-	public Optional<Product> updateProduct(int id,Product product) {
-		Optional<Product> optionalProduct = productRepository.findById(id);
-		if(optionalProduct.isPresent()) {
-			product.setProductId(id);
-			return Optional.of(productRepository.save(product));
-		} else 
-			return optionalProduct;
-		
-
-	}
+//	public Optional<Product> updateProduct(int id, Product product) {
+//		Optional<Product> optionalProduct = productRepository.findById(id);
+//		if (optionalProduct.isPresent()) {
+//			product.setProductId(id);
+//			return Optional.of(productRepository.save(product));
+//		} else
+//			return optionalProduct;
+//	}
 }

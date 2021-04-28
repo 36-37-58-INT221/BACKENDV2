@@ -2,7 +2,7 @@ package int221.project.models;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,11 +18,11 @@ public class HaveColor {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int haveColorId;
 
-	@ManyToOne
+	@ManyToOne( fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productId", nullable = false)
 	private Product product;
 
-	@ManyToOne
+	@ManyToOne( fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "colorId", nullable = false)
 	private Color color;
 
