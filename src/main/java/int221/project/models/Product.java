@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","haveColor"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "haveColor" })
 public class Product {
 
 	@Id
@@ -41,9 +41,8 @@ public class Product {
 	@JoinColumn(name = "brandid", nullable = false)
 	private Brand brand;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "product")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
 	private List<HaveColor> haveColor;
-
 
 	public Product() {
 	};
@@ -99,12 +98,20 @@ public class Product {
 		this.manufactureDate = manufactureDate;
 	}
 
-	public String getPicPath() {
+	public String getPathPic() {
 		return pathPic;
 	}
 
-	public void setPicPath(String picPath) {
-		this.pathPic = picPath;
+	public void setPathPic(String pathPic) {
+		this.pathPic = pathPic;
+	}
+
+	public List<HaveColor> getHaveColor() {
+		return haveColor;
+	}
+
+	public void setHaveColor(List<HaveColor> haveColor) {
+		this.haveColor = haveColor;
 	}
 
 	public Brand getBrand() {
