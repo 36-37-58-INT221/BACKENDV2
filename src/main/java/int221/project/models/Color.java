@@ -16,26 +16,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Color {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String colorId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int colorId;
 	private String colorCode;
 
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "color")
 	private List<HaveColor> haveColor;
 	
 	public Color() {
-	};
-
-	public Color(String colorId, String colorCode) {
-		this.colorId = colorId;
-		this.colorCode = colorCode;
 	}
 
-	public String getColorId() {
+	public Color(int colorId, String colorCode, List<HaveColor> haveColor) {
+		this.colorId = colorId;
+		this.colorCode = colorCode;
+		this.haveColor = haveColor;
+	}
+
+	public int getColorId() {
 		return colorId;
 	}
 
-	public void setColorId(String colorId) {
+	public void setColorId(int colorId) {
 		this.colorId = colorId;
 	}
 
@@ -53,6 +54,8 @@ public class Color {
 
 	public void setHaveColor(List<HaveColor> haveColor) {
 		this.haveColor = haveColor;
-	}
+	};
+
+	
 
 }

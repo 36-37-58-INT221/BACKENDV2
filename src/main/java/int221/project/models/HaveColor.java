@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 @Entity
 public class HaveColor {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private String id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int haveColorId;
 
 	@ManyToOne
 	@JoinColumn(name = "productId", nullable = false)
@@ -23,23 +23,23 @@ public class HaveColor {
 	@JoinColumn(name = "colorId", nullable = false)
 	private Color color;
 
-	private String imageSrc;
+//	private String imageSrc;
 
 	public HaveColor() {
 	}
 
-	public HaveColor(String id, Product product, Color color) {
-		this.id = id;
+	public HaveColor(int haveColorId, Product product, Color color) {
+		this.haveColorId = haveColorId;
 		this.product = product;
 		this.color = color;
 	}
 
-	public String getId() {
-		return id;
+	public int getHaveColorId() {
+		return haveColorId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setHaveColorId(int haveColorId) {
+		this.haveColorId = haveColorId;
 	}
 
 	public Product getProduct() {
@@ -58,14 +58,12 @@ public class HaveColor {
 		this.color = color;
 	}
 
-	public String getImageSrc() {
-		return imageSrc;
-	}
-
-	public void setImageSrc(String imageSrc) {
-		this.imageSrc = imageSrc;
-	}
-
-	
+//	public String getImageSrc() {
+//		return imageSrc;
+//	}
+//
+//	public void setImageSrc(String imageSrc) {
+//		this.imageSrc = imageSrc;
+//	}
 
 }

@@ -17,25 +17,25 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Brand {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private String brandId;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private int brandId;
 	private String name;
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "brand") //เป็น bidirectional mapping ที่ map กลับไปยัง table product
 	private List<Product> products;
 
 	public Brand() {
-	};
+	}
 
-	public Brand(String brandId, String name) {
+	public Brand(int brandId, String name) {
 		this.brandId = brandId;
 		this.name = name;
 	}
 
-	public String getBrandId() {
+	public int getBrandId() {
 		return brandId;
 	}
 
-	public void setBrandId(String brandId) {
+	public void setBrandId(int brandId) {
 		this.brandId = brandId;
 	}
 
@@ -53,7 +53,8 @@ public class Brand {
 
 	public void setProducts(List<Product> products) {
 		this.products = products;
-	}
+	};
+
 	
 
 }

@@ -28,7 +28,7 @@ public class ExtendService {
 		Files.write(path, bytes);
 	}
 
-	public Optional<Product> updateProduct(String id,Product product) {
+	public Optional<Product> updateProduct(int id,Product product) {
 		Optional<Product> optionalProduct = productRepository.findById(id);
 		if(optionalProduct.isPresent()) {
 			product.setProductId(id);

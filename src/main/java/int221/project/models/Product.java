@@ -24,10 +24,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Product {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JoinColumn(name = "brand", referencedColumnName = "brand")
 
-	private String productId;
+	private int productId;
 	private String name;
 	private String description;
 	private int price;
@@ -45,9 +45,9 @@ public class Product {
 	private List<HaveColor> haveColor;
 
 	public Product() {
-	};
+	}
 
-	public Product(String productId, String name, String description, int price, Date manufactureDate, String pathPic,
+	public Product(int productId, String name, String description, int price, Date manufactureDate, String pathPic,
 			Brand brand) {
 		this.productId = productId;
 		this.name = name;
@@ -58,11 +58,11 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public String getProductId() {
+	public int getProductId() {
 		return productId;
 	}
 
-	public void setProductId(String productId) {
+	public void setProductId(int productId) {
 		this.productId = productId;
 	}
 
@@ -74,20 +74,20 @@ public class Product {
 		this.name = name;
 	}
 
-	public int getPrice() {
-		return price;
-	}
-
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
 	}
 
 	public Date getManufactureDate() {
@@ -106,14 +106,6 @@ public class Product {
 		this.pathPic = pathPic;
 	}
 
-	public List<HaveColor> getHaveColor() {
-		return haveColor;
-	}
-
-	public void setHaveColor(List<HaveColor> haveColor) {
-		this.haveColor = haveColor;
-	}
-
 	public Brand getBrand() {
 		return brand;
 	}
@@ -122,4 +114,13 @@ public class Product {
 		this.brand = brand;
 	}
 
+	public List<HaveColor> getHaveColor() {
+		return haveColor;
+	}
+
+	public void setHaveColor(List<HaveColor> haveColor) {
+		this.haveColor = haveColor;
+	};
+
+	
 }

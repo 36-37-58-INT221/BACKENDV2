@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,22 +47,22 @@ public class ProductsRestController {
 //--------------------------------------------------------------------
 
 	@GetMapping("/color/{colorId}") // รับแบบget
-	public Color getColor(@PathVariable String colorId) {
+	public Color getColor(@PathVariable int colorId) {
 		return colorJpaRepository.findById(colorId).orElse(null);
 	};
 
 	@GetMapping("/brand/{brandId}") // รับแบบget
-	public Brand getBrand(@PathVariable String brandId) {
+	public Brand getBrand(@PathVariable int brandId) {
 		return brandJpaRepository.findById(brandId).orElse(null);
 	};
 
-	@GetMapping("/products") // รับแบบget
+	@GetMapping("/products") // รับแบบget success
 	public List<Product> getAllProduct() {
 		return productsJpaRepository.findAll();
 	};
 
-	@GetMapping("/products/{id}")
-	public Product show(@PathVariable String id) {
+	@GetMapping("/products/{id}") // success
+	public Product show(@PathVariable int id) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
@@ -70,17 +71,17 @@ public class ProductsRestController {
 	};
 
 	@PostMapping("/form") // รับแบบPost
-	public String post(Product product) {
+	public Product post(@RequestBody Product product) {
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
 		productsJpaRepository.save(product);
-		return product.getProductId();
+		return product;
 	};
 
 	@PutMapping("/products/put/{id}") // รับแบบPut
-	public Product put(@RequestParam Product product, @PathVariable String id) {
+	public Product put(@RequestParam Product product, @PathVariable int id) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
@@ -90,7 +91,7 @@ public class ProductsRestController {
 	};
 
 	@DeleteMapping("/products/delete/{id}") // รับแบบDelete
-	public void delete(@PathVariable String id) {
+	public void delete(@PathVariable int id) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID, "Does not fine Id!!");
 		}
