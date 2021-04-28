@@ -1,5 +1,6 @@
 package int221.project.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 
 import javax.persistence.GeneratedValue;

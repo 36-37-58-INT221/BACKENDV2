@@ -12,17 +12,17 @@ import javax.persistence.OneToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","haveColor"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "haveColor" })
 public class Color {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int colorId;
 	private String colorCode;
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "color")
+	@OneToMany(cascade = CascadeType.PERSIST, orphanRemoval = true, mappedBy = "color")
 	private List<HaveColor> haveColor;
-	
+
 	public Color() {
 	}
 
@@ -55,7 +55,5 @@ public class Color {
 	public void setHaveColor(List<HaveColor> haveColor) {
 		this.haveColor = haveColor;
 	};
-	
-	
 
 }

@@ -20,12 +20,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler",  })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler"  })
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JoinColumn(name = "brand", referencedColumnName = "brand")
 
 	private int productId;
 	private String name;
@@ -37,11 +36,11 @@ public class Product {
 //	@JoinColumn(name = "post_id", nullable = false)
 //	@OnDelete(action = OnDeleteAction.CASCADE)
 //	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = false)
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "brandid", nullable = false)
 	private Brand brand;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+	@OneToMany(cascade=CascadeType.PERSIST,orphanRemoval =true, mappedBy = "product")
 	private List<HaveColor> haveColor;
 
 	public Product() {
