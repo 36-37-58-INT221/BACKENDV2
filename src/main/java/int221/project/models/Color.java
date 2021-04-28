@@ -55,7 +55,7 @@ public class Color {
 	public void setHaveColor(List<HaveColor> haveColor) {
 		this.haveColor = haveColor;
 	};
-
+	
 	
 
 }

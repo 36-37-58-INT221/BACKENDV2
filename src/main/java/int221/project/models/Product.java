@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "haveColor" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler",  })
 public class Product {
 
 	@Id
@@ -121,6 +121,6 @@ public class Product {
 	public void setHaveColor(List<HaveColor> haveColor) {
 		this.haveColor = haveColor;
 	};
-
+	
 	
 }

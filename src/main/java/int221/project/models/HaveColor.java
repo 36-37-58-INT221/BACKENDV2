@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 //import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","product"})
 @Entity
 public class HaveColor {
 	@Id
@@ -57,7 +59,7 @@ public class HaveColor {
 	public void setColor(Color color) {
 		this.color = color;
 	}
-
+	
 //	public String getImageSrc() {
 //		return imageSrc;
 //	}
