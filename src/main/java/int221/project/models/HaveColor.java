@@ -1,5 +1,7 @@
 package int221.project.models;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.istack.NotNull;
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler","product"})
 @Entity
 public class HaveColor {
@@ -20,6 +23,7 @@ public class HaveColor {
 
 	@ManyToOne( fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "productId", nullable = false)
+	@NotNull
 	private Product product;
 
 	@ManyToOne( fetch = FetchType.LAZY, optional = false)
@@ -60,6 +64,9 @@ public class HaveColor {
 	public void setColor(Color color) {
 		this.color = color;
 	}
+
+	
+	
 	
 //	public String getImageSrc() {
 //		return imageSrc;

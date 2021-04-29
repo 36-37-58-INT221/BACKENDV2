@@ -25,36 +25,35 @@ public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-	private int productId;
+	private int productId; // อยู่ยนสุดเสมอ
+	private String pathPic;
 	private String name;
 	private String description;
-	private int price;
-	private Date manufactureDate;
-	private String pathPic;
-//	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-//	@JoinColumn(name = "post_id", nullable = false)
-//	@OnDelete(action = OnDeleteAction.CASCADE)
-//	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "brandid", nullable = false)
-	private Brand brand;
 
 	@OneToMany(orphanRemoval = true, mappedBy = "product")
 	private List<HaveColor> haveColor;
 
+	private int price;
+
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "brandid", nullable = false)
+	private Brand brand;
+
+	private Date manufactureDate;
+
 	public Product() {
 	}
 
-	public Product(int productId, String name, String description, int price, Date manufactureDate, String pathPic,
-			Brand brand) {
+	public Product(int productId, String pathPic, String name, String description, List<HaveColor> haveColor, int price,
+			Brand brand, Date manufactureDate) {
 		this.productId = productId;
+		this.pathPic = pathPic;
 		this.name = name;
 		this.description = description;
+		this.haveColor = haveColor;
 		this.price = price;
-		this.manufactureDate = manufactureDate;
-		this.pathPic = pathPic;
 		this.brand = brand;
+		this.manufactureDate = manufactureDate;
 	}
 
 	public int getProductId() {
@@ -63,6 +62,14 @@ public class Product {
 
 	public void setProductId(int productId) {
 		this.productId = productId;
+	}
+
+	public String getPathPic() {
+		return pathPic;
+	}
+
+	public void setPathPic(String pathPic) {
+		this.pathPic = pathPic;
 	}
 
 	public String getName() {
@@ -81,28 +88,20 @@ public class Product {
 		this.description = description;
 	}
 
+	public List<HaveColor> getHaveColor() {
+		return haveColor;
+	}
+
+	public void setHaveColor(List<HaveColor> haveColor) {
+		this.haveColor = haveColor;
+	}
+
 	public int getPrice() {
 		return price;
 	}
 
 	public void setPrice(int price) {
 		this.price = price;
-	}
-
-	public Date getManufactureDate() {
-		return manufactureDate;
-	}
-
-	public void setManufactureDate(Date manufactureDate) {
-		this.manufactureDate = manufactureDate;
-	}
-
-	public String getPathPic() {
-		return pathPic;
-	}
-
-	public void setPathPic(String pathPic) {
-		this.pathPic = pathPic;
 	}
 
 	public Brand getBrand() {
@@ -113,12 +112,12 @@ public class Product {
 		this.brand = brand;
 	}
 
-	public List<HaveColor> getHaveColor() {
-		return haveColor;
+	public Date getManufactureDate() {
+		return manufactureDate;
 	}
 
-	public void setHaveColor(List<HaveColor> haveColor) {
-		this.haveColor = haveColor;
-	};
+	public void setManufactureDate(Date manufactureDate) {
+		this.manufactureDate = manufactureDate;
+	}
 
 }

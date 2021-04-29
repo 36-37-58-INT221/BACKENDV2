@@ -26,10 +26,10 @@ public class Color {
 	public Color() {
 	}
 
-	public Color(int colorId, String colorCode, List<HaveColor> haveColor) {
+	public Color(int colorId, String colorCode) {
 		this.colorId = colorId;
 		this.colorCode = colorCode;
-		this.haveColor = haveColor;
+
 	}
 
 	public int getColorId() {

@@ -23,6 +23,7 @@ import int221.project.exceptions.ExceptionResponse;
 import int221.project.models.Brand;
 import int221.project.models.Color;
 import int221.project.models.ExtendService;
+import int221.project.models.HaveColor;
 import int221.project.models.Product;
 import int221.project.repositories.BrandJpaRepository;
 import int221.project.repositories.ColorJpaRepository;
@@ -84,7 +85,20 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
+		brandJpaRepository.save(product.getBrand());
+
 		productsJpaRepository.save(product);
+		
+		for (int i = 0; i < product.getHaveColor().size(); i++) {
+			colorJpaRepository.save(product.getHaveColor().get(i).getColor());
+		}
+		
+		
+		
+		for (int i = 0; i < product.getHaveColor().size(); i++) {
+			haveColorJpaRepository.save(product.getHaveColor().get(i));
+		}
+
 		return product;
 	};
 
