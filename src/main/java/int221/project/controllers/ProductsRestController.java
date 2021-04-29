@@ -2,13 +2,16 @@ package int221.project.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,8 +26,10 @@ import int221.project.models.ExtendService;
 import int221.project.models.Product;
 import int221.project.repositories.BrandJpaRepository;
 import int221.project.repositories.ColorJpaRepository;
+import int221.project.repositories.HaveColorJpaRepository;
 import int221.project.repositories.ProductsJpaRepository;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +42,8 @@ public class ProductsRestController {
 	ColorJpaRepository colorJpaRepository;
 	@Autowired
 	BrandJpaRepository brandJpaRepository;
+	@Autowired
+	HaveColorJpaRepository haveColorJpaRepository;
 	@Autowired
 	ExtendService ES;
 
@@ -106,6 +113,7 @@ public class ProductsRestController {
 			existedProduct.setManufactureDate(product.getManufactureDate());
 			existedProduct.setPathPic(product.getPathPic());
 			existedProduct.setBrand(product.getBrand());
+			existedProduct.setHaveColor(product.getHaveColor());
 			return productsJpaRepository.save(existedProduct);
 		}
 		return null;
@@ -132,4 +140,24 @@ public class ProductsRestController {
 		}
 		return returnValue;
 	}
+
+	@GetMapping(value = "/getImage", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE }
+
+	)
+	public byte[] getImage() throws IOException {
+		return ES.getFile("1.jpg");
+	}
+
+	@DeleteMapping("deleteImage")
+	public String deleteImage(@RequestParam String name) {
+		String returnValue = "delete ok";
+		try {
+			ES.deleteImage(name);
+		} catch (Exception e) {
+			e.printStackTrace();
+			returnValue = "delete error";
+		}
+		return returnValue;
+	}
+
 }

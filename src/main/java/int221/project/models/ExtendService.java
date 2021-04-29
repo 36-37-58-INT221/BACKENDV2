@@ -1,11 +1,16 @@
 package int221.project.models;
 
 import int221.project.repositories.ProductsJpaRepository;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Optional;
 
+import javax.servlet.ServletContext;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ExtendService {
 	private ProductsJpaRepository productRepository;
+	String folder = "/photo/";
 
 	@Autowired
 	public ExtendService(ProductsJpaRepository productsJpaRepository) {
@@ -21,10 +27,24 @@ public class ExtendService {
 	}
 
 	public void saveImage(MultipartFile file) throws Exception {
-		String folder = "/photo/";
+
 		byte[] bytes = file.getBytes();
-		Path path = Paths.get(folder, file.getOriginalFilename());
+		Path path = Paths.get(folder, "1.jpg");
+		
 		Files.write(path, bytes);
+	}
+
+	public byte[] getFile(String file) throws IOException {
+		Path path = Paths.get(folder, "1.jpg");
+		return IOUtils.toByteArray(path.toUri());
+
+	}
+
+	public void deleteImage(String fileName)throws Exception {
+
+		Path path = Paths.get(folder, fileName);
+		Files.delete(path);
+
 	}
 
 //	public Optional<Product> updateProduct(int id, Product product) {
