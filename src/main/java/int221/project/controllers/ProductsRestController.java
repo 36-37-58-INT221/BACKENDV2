@@ -85,19 +85,16 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
-		brandJpaRepository.save(product.getBrand());
 
 		productsJpaRepository.save(product);
-		
 		for (int i = 0; i < product.getHaveColor().size(); i++) {
-			colorJpaRepository.save(product.getHaveColor().get(i).getColor());
+			product.getHaveColor().get(i).setProduct(product);
 		}
-		
-		
-		
 		for (int i = 0; i < product.getHaveColor().size(); i++) {
 			haveColorJpaRepository.save(product.getHaveColor().get(i));
 		}
+		
+	
 
 		return product;
 	};

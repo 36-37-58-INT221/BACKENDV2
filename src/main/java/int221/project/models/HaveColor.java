@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 //import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.TableGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.sun.istack.NotNull;
@@ -18,7 +19,11 @@ import com.sun.istack.NotNull;
 @Entity
 public class HaveColor {
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+//	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	 
+	    //@TableGenerator เป็นการระบุว่าให้ database ทำการสร้าง id หรือ primary key ให้เองโดยอัตโนมัติ โดย ให้ squence id นั้นเก็บไว้ที่ table ORPHANDRG_SEQ  ที่มีค่าของ column NAME เท่ากับ USER_FORUM 
+//	    @TableGenerator(name = "UserForum_GEN", table = "ORPHANDRG_SEQ", pkColumnName = "NAME", valueColumnName = "VALUE", pkColumnValue = "USER_FORUM")
+//	    @GeneratedValue(generator = "UserForum_GEN", strategy = GenerationType.TABLE)
 	private int haveColorId;
 
 	@ManyToOne( fetch = FetchType.LAZY, optional = false)
@@ -40,6 +45,10 @@ public class HaveColor {
 		this.product = product;
 		this.color = color;
 	}
+	public HaveColor( Color color) {
+		this.color = color;
+	}
+
 
 	public int getHaveColorId() {
 		return haveColorId;
