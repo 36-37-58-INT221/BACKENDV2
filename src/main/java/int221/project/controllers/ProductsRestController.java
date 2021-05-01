@@ -53,6 +53,16 @@ public class ProductsRestController {
 	public Brand getBrand(@PathVariable int brandId) {
 		return brandJpaRepository.findById(brandId).orElse(null);
 	};
+	
+	@GetMapping("/colors") // รับแบบget success
+	public List<Color> getAllColor() {
+		return colorJpaRepository.findAll();
+	};
+	
+	@GetMapping("/brands") // รับแบบget success
+	public List<Brand> getAllBrand() {
+		return brandJpaRepository.findAll();
+	};
 
 	@GetMapping("/products") // รับแบบget success
 	public List<Product> getAllProduct() {
@@ -69,30 +79,52 @@ public class ProductsRestController {
 	};
 
 	@PostMapping("/products/add") // รับแบบPost success
-	public Product post(@RequestBody Product product) {
+	public Product post(@RequestParam ("imageFile") MultipartFile imageFile,@RequestBody Product product) {
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
 		productsJpaRepository.save(product);
+		try {
+			ES.saveImage(imageFile,String.valueOf(product.getProductId())+product.getPathPic());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return product;
 	};
 
 	@DeleteMapping("/products/{id}") // รับแบบDelete success
 	public String delete(@PathVariable int id) {
-		if (productsJpaRepository.findById(id).isEmpty()) {
+		Product product = productsJpaRepository.findById(id).get();
+		if (product == null) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
 		}
 		productsJpaRepository.deleteById(id);
+		try {
+			ES.deleteImage(String.valueOf(product.getProductId())+product.getPathPic());
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("delete error");
+		}
+
 		return "redirect:/products";
 	};
 
 	@PutMapping("/products/put/{id}") // รับแบบPut success
-	public Product put(@RequestBody Product product, @PathVariable int id) {
+	public Product put(@RequestBody Product product, @PathVariable int id,@RequestParam ("imageFile") MultipartFile imageFile) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
+		}
+		if(imageFile != null) {
+			try {
+				ES.deleteImage(String.valueOf(product.getProductId())+product.getPathPic());
+				ES.saveImage(imageFile,String.valueOf(product.getProductId())+product.getPathPic());
+			} catch (Exception e) {
+				e.printStackTrace();
+				 System.out.println( "put error" );
+			}
 		}
 		Optional<Product> optional = productsJpaRepository.findById(id);
 		if (optional.isPresent()) {
@@ -109,35 +141,35 @@ public class ProductsRestController {
 		return null;
 	};
 
-	@PostMapping("/uploadImage")
-	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
-		String returnValue = "start";
-		try {
-			ES.saveImage(imageFile);
-		} catch (Exception e) {
-			e.printStackTrace();
-			returnValue = "error";
-		}
-		return returnValue;
-	}
+//	@PostMapping("/uploadImage")
+//	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
+//		String returnValue = "start";
+//		try {
+//			ES.saveImage(imageFile);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			returnValue = "error";
+//		}
+//		return returnValue;
+//	}
 
 	@GetMapping(value = "/getImage", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE }
 
 	)
-	public byte[] getImage() throws IOException {
-		return ES.getFile("1.jpg");
+	public byte[] getImage(@RequestBody Product product) throws IOException {
+		return ES.getFile(String.valueOf(product.getProductId())+product.getPathPic());
 	}
 
-	@DeleteMapping("deleteImage")
-	public String deleteImage(@RequestParam String name) {
-		String returnValue = "delete ok";
-		try {
-			ES.deleteImage(name);
-		} catch (Exception e) {
-			e.printStackTrace();
-			returnValue = "delete error";
-		}
-		return returnValue;
-	}
+//	@DeleteMapping("deleteImage")
+//	public String deleteImage(@RequestParam String name) {
+//		String returnValue = "delete ok";
+//		try {
+//			ES.deleteImage(name);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			returnValue = "delete error";
+//		}
+//		return returnValue;
+//	}
 
 }

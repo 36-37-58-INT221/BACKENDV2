@@ -26,10 +26,10 @@ public class ExtendService {
 		this.productRepository = productsJpaRepository;
 	}
 
-	public void saveImage(MultipartFile file) throws Exception {
+	public void saveImage(MultipartFile file,String fileName) throws Exception {
 
 		byte[] bytes = file.getBytes();
-		Path path = Paths.get(folder, "1.jpg");
+		Path path = Paths.get(folder, fileName);
 		
 		Files.write(path, bytes);
 	}
