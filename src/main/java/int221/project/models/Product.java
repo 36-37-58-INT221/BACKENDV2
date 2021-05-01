@@ -3,35 +3,29 @@ package int221.project.models;
 import java.sql.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Product {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int productId; // อยู่ยนสุดเสมอ
+	private int productId;
 	private String pathPic;
 	private String name;
 	private String description;
 
-	@OneToMany(orphanRemoval = true, mappedBy = "product")
-	private List<HaveColor> haveColor;
+	@ManyToMany
+	@JoinTable(name = "haveColor", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "colorId"))
+	private List<Color> color;
 
 	private int price;
 
@@ -44,13 +38,14 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(int productId, String pathPic, String name, String description, List<HaveColor> haveColor, int price,
+	public Product(int productId, String pathPic, String name, String description, List<Color> color, int price,
 			Brand brand, Date manufactureDate) {
+		super();
 		this.productId = productId;
 		this.pathPic = pathPic;
 		this.name = name;
 		this.description = description;
-		this.haveColor = haveColor;
+		this.color = color;
 		this.price = price;
 		this.brand = brand;
 		this.manufactureDate = manufactureDate;
@@ -88,12 +83,12 @@ public class Product {
 		this.description = description;
 	}
 
-	public List<HaveColor> getHaveColor() {
-		return haveColor;
+	public List<Color> getColor() {
+		return color;
 	}
 
-	public void setHaveColor(List<HaveColor> haveColor) {
-		this.haveColor = haveColor;
+	public void setColor(List<Color> color) {
+		this.color = color;
 	}
 
 	public int getPrice() {

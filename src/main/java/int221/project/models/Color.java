@@ -2,34 +2,34 @@ package int221.project.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "haveColor" })
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "product" })
 public class Color {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int colorId;
 	private String colorCode;
-
-	@OneToMany( orphanRemoval = true, mappedBy = "color")
-	private List<HaveColor> haveColor;
+	
+	@ManyToMany
+	private List<Product> product;
 
 	public Color() {
 	}
 
-	public Color(int colorId, String colorCode) {
+	public Color(int colorId, String colorCode, List<Product> product) {
+		super();
 		this.colorId = colorId;
 		this.colorCode = colorCode;
-
+		this.product = product;
 	}
 
 	public int getColorId() {
@@ -48,12 +48,16 @@ public class Color {
 		this.colorCode = colorCode;
 	}
 
-	public List<HaveColor> getHaveColor() {
-		return haveColor;
+	public List<Product> getProduct() {
+		return product;
 	}
 
-	public void setHaveColor(List<HaveColor> haveColor) {
-		this.haveColor = haveColor;
-	};
+	public void setProduct(List<Product> product) {
+		this.product = product;
+	}
+
+	
+
+	
 
 }

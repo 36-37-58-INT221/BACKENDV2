@@ -23,11 +23,9 @@ import int221.project.exceptions.ExceptionResponse;
 import int221.project.models.Brand;
 import int221.project.models.Color;
 import int221.project.models.ExtendService;
-import int221.project.models.HaveColor;
 import int221.project.models.Product;
 import int221.project.repositories.BrandJpaRepository;
 import int221.project.repositories.ColorJpaRepository;
-import int221.project.repositories.HaveColorJpaRepository;
 import int221.project.repositories.ProductsJpaRepository;
 
 import java.io.IOException;
@@ -44,16 +42,7 @@ public class ProductsRestController {
 	@Autowired
 	BrandJpaRepository brandJpaRepository;
 	@Autowired
-	HaveColorJpaRepository haveColorJpaRepository;
-	@Autowired
 	ExtendService ES;
-
-//	@RequestMapping // รับrequestทุกชนิด
-//	public String request() {
-//		
-//		return;
-//	};
-//--------------------------------------------------------------------
 
 	@GetMapping("/color/{colorId}") // รับแบบget
 	public Color getColor(@PathVariable int colorId) {
@@ -79,37 +68,27 @@ public class ProductsRestController {
 		return productsJpaRepository.findById(id).orElse(null);
 	};
 
-	@PostMapping("/form") // รับแบบPost success
+	@PostMapping("/products/add") // รับแบบPost success
 	public Product post(@RequestBody Product product) {
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
-
 		productsJpaRepository.save(product);
-		for (int i = 0; i < product.getHaveColor().size(); i++) {
-			product.getHaveColor().get(i).setProduct(product);
-		}
-		for (int i = 0; i < product.getHaveColor().size(); i++) {
-			haveColorJpaRepository.save(product.getHaveColor().get(i));
-		}
-		
-	
-
 		return product;
 	};
 
-//	@PutMapping("/products/put/{id}") // รับแบบPut
-//	public Product put(@RequestBody Product product, @PathVariable int id) {
-//		if (productsJpaRepository.findById(id).isEmpty()) {
-//			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
-//					"id: {" + id + "} Does not fine Id!!");
-//		}
-//		ES.updateProduct(id, product);
-//		return product;
-//	};
+	@DeleteMapping("/products/{id}") // รับแบบDelete success
+	public String delete(@PathVariable int id) {
+		if (productsJpaRepository.findById(id).isEmpty()) {
+			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
+					"id: {" + id + "} Does not fine Id!!");
+		}
+		productsJpaRepository.deleteById(id);
+		return "redirect:/products";
+	};
 
-	@PutMapping("/products/put/{id}") // รับแบบPut
+	@PutMapping("/products/put/{id}") // รับแบบPut success
 	public Product put(@RequestBody Product product, @PathVariable int id) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
@@ -124,20 +103,10 @@ public class ProductsRestController {
 			existedProduct.setManufactureDate(product.getManufactureDate());
 			existedProduct.setPathPic(product.getPathPic());
 			existedProduct.setBrand(product.getBrand());
-			existedProduct.setHaveColor(product.getHaveColor());
+			existedProduct.setColor(product.getColor());
 			return productsJpaRepository.save(existedProduct);
 		}
 		return null;
-	};
-
-	@DeleteMapping("/products/{id}") // รับแบบDelete
-	public String delete(@PathVariable int id) {
-		if (productsJpaRepository.findById(id).isEmpty()) {
-			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
-					"id: {" + id + "} Does not fine Id!!");
-		}
-		productsJpaRepository.deleteById(id);
-		return "redirect:/products";
 	};
 
 	@PostMapping("/uploadImage")
