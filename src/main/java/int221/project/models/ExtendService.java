@@ -17,30 +17,27 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ExtendService {
-	private ProductsJpaRepository productRepository;
+//	private ProductsJpaRepository productRepository;
 	String folder = "./public/product-images/";
 
-	@Autowired
-	public ExtendService(ProductsJpaRepository productsJpaRepository) {
+//	@Autowired
+//	public ExtendService(ProductsJpaRepository productsJpaRepository) {
+//
+//		this.productRepository = productsJpaRepository;
+//	}
 
-		this.productRepository = productsJpaRepository;
-	}
-
-	public void saveImage(MultipartFile file,String fileName) throws Exception {
-
+	public void saveImage(MultipartFile file, String fileName) throws Exception {
 		byte[] bytes = file.getBytes();
 		Path path = Paths.get(folder, fileName);
-		
 		Files.write(path, bytes);
 	}
 
 	public byte[] getFile(String file) throws IOException {
 		Path path = Paths.get(folder, file);
 		return IOUtils.toByteArray(path.toUri());
-
 	}
 
-	public void deleteImage(String fileName)throws Exception {
+	public void deleteImage(String fileName) throws Exception {
 		Path path = Paths.get(folder, fileName);
 		Files.delete(path);
 	}
