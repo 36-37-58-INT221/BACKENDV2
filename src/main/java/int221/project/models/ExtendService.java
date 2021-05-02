@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ExtendService {
 	private ProductsJpaRepository productRepository;
-	String folder = "/photo/";
+	String folder = "./public/product-images/";
 
 	@Autowired
 	public ExtendService(ProductsJpaRepository productsJpaRepository) {
@@ -41,10 +41,8 @@ public class ExtendService {
 	}
 
 	public void deleteImage(String fileName)throws Exception {
-
 		Path path = Paths.get(folder, fileName);
 		Files.delete(path);
-
 	}
 
 //	public Optional<Product> updateProduct(int id, Product product) {

@@ -79,7 +79,7 @@ public class ProductsRestController {
 		return productsJpaRepository.findById(id).orElse(null);
 	};
 
-	@PostMapping("/products/add") // รับแบบPost success
+	@PostMapping("/products/add") // รับแบบPost success ใช้อันนี้ก็saveได้นะ
 	public Product post(@RequestParam ("imageFile") MultipartFile imageFile,@RequestPart Product product) {
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
@@ -147,21 +147,19 @@ public class ProductsRestController {
 		return null;
 	};
 
-//	@PostMapping("/uploadImage")
-//	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
-//		String returnValue = "start";
-//		try {
-//			ES.saveImage(imageFile);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			returnValue = "error";
-//		}
-//		return returnValue;
-//	}
+	@PostMapping("/uploadImage")
+	public String uploadImage(@RequestParam("imageFile") MultipartFile imageFile) {
+		String returnValue = "start";
+		try {
+			ES.saveImage(imageFile,"test2.jpg");
+		} catch (Exception e) {
+			e.printStackTrace();
+			returnValue = "error";
+		}
+		return returnValue;
+	}
 
-	@GetMapping(value = "/getImage", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE }
-
-	)
+	@GetMapping(value = "/getImage", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE })
 	public byte[] getImage(@RequestBody String name) throws IOException {
 		return ES.getFile(name);
 	}
