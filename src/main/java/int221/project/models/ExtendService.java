@@ -35,7 +35,7 @@ public class ExtendService {
 	}
 
 	public byte[] getFile(String file) throws IOException {
-		Path path = Paths.get(folder, "1.jpg");
+		Path path = Paths.get(folder, file);
 		return IOUtils.toByteArray(path.toUri());
 
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -79,14 +80,15 @@ public class ProductsRestController {
 	};
 
 	@PostMapping("/products/add") // รับแบบPost success
-	public Product post(@RequestParam ("imageFile") MultipartFile imageFile,@RequestBody Product product) {
+	public Product post(@RequestParam ("imageFile") MultipartFile imageFile,@RequestPart Product product) {
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
+		product.setPathPic(product.getName()+imageFile.getOriginalFilename());
 		productsJpaRepository.save(product);
 		try {
-			ES.saveImage(imageFile,String.valueOf(product.getProductId())+product.getPathPic());
+			ES.saveImage(imageFile,product.getPathPic());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -102,7 +104,7 @@ public class ProductsRestController {
 		}
 		productsJpaRepository.deleteById(id);
 		try {
-			ES.deleteImage(String.valueOf(product.getProductId())+product.getPathPic());
+			ES.deleteImage(product.getPathPic());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("delete error");
@@ -112,30 +114,34 @@ public class ProductsRestController {
 	};
 
 	@PutMapping("/products/put/{id}") // รับแบบPut success
-	public Product put(@RequestBody Product product, @PathVariable int id,@RequestParam ("imageFile") MultipartFile imageFile) {
+	public Product put(@RequestPart Product product, @PathVariable int id,@RequestParam ("imageFile") MultipartFile imageFile) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
 		}
-		if(imageFile != null) {
-			try {
-				ES.deleteImage(String.valueOf(product.getProductId())+product.getPathPic());
-				ES.saveImage(imageFile,String.valueOf(product.getProductId())+product.getPathPic());
-			} catch (Exception e) {
-				e.printStackTrace();
-				 System.out.println( "put error" );
-			}
-		}
+		
 		Optional<Product> optional = productsJpaRepository.findById(id);
 		if (optional.isPresent()) {
 			Product existedProduct = optional.get();
+			Product existedProduct2 = optional.get();
 			existedProduct.setName(product.getName());
 			existedProduct.setDescription(product.getDescription());
 			existedProduct.setPrice(product.getPrice());
 			existedProduct.setManufactureDate(product.getManufactureDate());
-			existedProduct.setPathPic(product.getPathPic());
+//			existedProduct.setPathPic(product.getPathPic());
 			existedProduct.setBrand(product.getBrand());
 			existedProduct.setColor(product.getColor());
+			if(imageFile != null) {
+				try {
+					ES.deleteImage(existedProduct2.getPathPic());
+					existedProduct.setPathPic(product.getName()+imageFile.getOriginalFilename());
+					ES.saveImage(imageFile,existedProduct.getPathPic());
+				} catch (Exception e) {
+					e.printStackTrace();
+					 System.out.println( "put error" );
+				}
+			}
+			product.setPathPic(null);
 			return productsJpaRepository.save(existedProduct);
 		}
 		return null;
@@ -156,8 +162,8 @@ public class ProductsRestController {
 	@GetMapping(value = "/getImage", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE }
 
 	)
-	public byte[] getImage(@RequestBody Product product) throws IOException {
-		return ES.getFile(String.valueOf(product.getProductId())+product.getPathPic());
+	public byte[] getImage(@RequestBody String name) throws IOException {
+		return ES.getFile(name);
 	}
 
 //	@DeleteMapping("deleteImage")
