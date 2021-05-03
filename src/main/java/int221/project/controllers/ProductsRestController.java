@@ -83,7 +83,7 @@ public class ProductsRestController {
 
 	@PutMapping("/products/put/{id}")
 	public Product put(@RequestPart Product product, @PathVariable int id,
-			@RequestParam("imageFile") MultipartFile imageFile) {
+			@RequestParam(value="imageFile" , required = false) MultipartFile imageFile) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
