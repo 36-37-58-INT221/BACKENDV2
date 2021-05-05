@@ -93,7 +93,7 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
 		}
-		if (productsJpaRepository.findByName(product.getName()) != null) {
+		if (productsJpaRepository.findByName(product.getName()) != null && productsJpaRepository.findByName(product.getName()).getProductId() != product.getProductId() ) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
