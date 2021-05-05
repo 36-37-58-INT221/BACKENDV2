@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+//import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,7 +26,7 @@ import int221.project.repositories.ProductsJpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-//@CrossOrigin(origins = { "http://localhost:8080"})
+//@CrossOrigin(origins = { "http://localhost:8080" })
 @RestController
 public class ProductsRestController {
 	@Autowired
@@ -52,6 +53,10 @@ public class ProductsRestController {
 		if (productsJpaRepository.existsById(product.getProductId())) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
+		}
+		if (productsJpaRepository.findByName(product.getName()) != null) {
+			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
+					"Name: {" + product.getName() + "} dupicate!!");
 		}
 		product.setPathPic(product.getName() + imageFile.getOriginalFilename());
 		productsJpaRepository.save(product);
@@ -83,12 +88,15 @@ public class ProductsRestController {
 
 	@PutMapping("/products/put/{id}")
 	public Product put(@RequestPart Product product, @PathVariable int id,
-			@RequestParam(value="imageFile" , required = false) MultipartFile imageFile) {
+			@RequestParam(value = "imageFile", required = false) MultipartFile imageFile) {
 		if (productsJpaRepository.findById(id).isEmpty()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
 		}
-
+		if (productsJpaRepository.findByName(product.getName()) != null) {
+			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
+					"Name: {" + product.getName() + "} dupicate!!");
+		}
 		Optional<Product> optional = productsJpaRepository.findById(id);
 		if (optional.isPresent()) {
 			Product existedProduct = optional.get();
@@ -97,7 +105,6 @@ public class ProductsRestController {
 			existedProduct.setDescription(product.getDescription());
 			existedProduct.setPrice(product.getPrice());
 			existedProduct.setManufactureDate(product.getManufactureDate());
-//			existedProduct.setPathPic(product.getPathPic());
 			existedProduct.setBrand(product.getBrand());
 			existedProduct.setColor(product.getColor());
 			if (imageFile != null) {

@@ -11,16 +11,15 @@ import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler","products"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler", "products" })
 public class Brand {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int brandId;
 	private String name;
-	@OneToMany(orphanRemoval =true, mappedBy = "brand" ) //เป็น bidirectional mapping ที่ map กลับไปยัง table product
+	@OneToMany(orphanRemoval = true, mappedBy = "brand") // เป็น bidirectional mapping ที่ map กลับไปยัง table product
 	private List<Product> products;
 
 	public Brand() {
@@ -54,7 +53,5 @@ public class Brand {
 	public void setProducts(List<Product> products) {
 		this.products = products;
 	};
-
-	
 
 }

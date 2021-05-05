@@ -18,7 +18,7 @@ public class Color {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int colorId;
 	private String colorCode;
-	
+
 	@ManyToMany
 	private List<Product> product;
 
@@ -55,9 +55,5 @@ public class Color {
 	public void setProduct(List<Product> product) {
 		this.product = product;
 	}
-
-	
-
-	
 
 }
