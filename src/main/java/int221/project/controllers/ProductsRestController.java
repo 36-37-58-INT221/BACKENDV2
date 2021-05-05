@@ -54,7 +54,7 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.PRODUCT_ALREADY_EXIST,
 					"id: {" + product.getProductId() + "} already exist !!");
 		}
-		if (productsJpaRepository.findByName(product.getName()) != null) {
+		if (productsJpaRepository.findByName(product.getName()).isEmpty() == false) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
@@ -93,7 +93,7 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
 		}
-		if (productsJpaRepository.findByName(product.getName()) != null) {
+		if (productsJpaRepository.findByName(product.getName()).isEmpty() == false) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
