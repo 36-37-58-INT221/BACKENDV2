@@ -3,7 +3,16 @@ services:
   backend:
     build: .
     ports:
-      - '3000:3000' 
+      - '3000:3000'      
+ mysqldb:
+    image: mysql:8.0.23
+    networks:
+      - docker_network
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=mydb
+      - MYSQL_USER=admin
+     
 networks:
     default:
         external:
