@@ -26,7 +26,7 @@ import int221.project.repositories.ProductsJpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = { "http://52.187.120.198:8080" })
+@CrossOrigin(origins = "http://52.187.120.198" )
 @RestController
 public class ProductsRestController {
 	@Autowired
