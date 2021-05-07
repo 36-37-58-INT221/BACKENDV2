@@ -24,7 +24,7 @@ public class Product {
 	private String description;
 
 	@ManyToMany
-	@JoinTable(name = "haveColor", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "colorId"))
+	@JoinTable(name = "HaveColor", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "colorId"))
 	private List<Color> color;
 
 	private int price;
