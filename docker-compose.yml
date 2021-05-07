@@ -8,10 +8,10 @@ services:
     image: mysql:8.0.23
     networks:
       - docker_network
-    environment:
-      - MYSQL_ROOT_PASSWORD=admin
-      - MYSQL_DATABASE=mydb
-      - MYSQL_USER=admin
+     environment:
+      - DB_HOST=${DB_HOST}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
      
 networks:
     default:
