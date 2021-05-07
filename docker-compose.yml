@@ -3,15 +3,15 @@ services:
   backend:
     build: .
     image: backend
-    ports:
-      - '3000:3000'      
-     environment:
+    ports: 
+      - "3000:3000"
+    environment:
       - MYSQL_DATABASE=mydb
       - MYSQL_USER=admin
       - MYSQL_ROOT_PASSWORD=admin
-     volumes:
-      - ~/backend_pic:/public/product-images   
+    volumes:
+      - ~/backend_pic:/public/product-images
 networks:
-    default:
-        external:
-            name: docker_network
+  default:
+    external:
+      name: docker_network
