@@ -12,7 +12,8 @@ services:
       - MYSQL_DATABASE=mydb
       - MYSQL_USER=admin
       - MYSQL_ROOT_PASSWORD=admin
-      
+     volumes:
+      - ./backend_pic:/public/product-images
       
      
 networks:
