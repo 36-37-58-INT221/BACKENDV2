@@ -1,22 +1,16 @@
-version: "3.3"
+version: "3.8"
 services:
   backend:
     build: .
     image: backend
     ports:
       - '3000:3000'      
- mysqldb:
-    image: mysql:8.0.23
-    networks:
-      - docker_network
      environment:
       - MYSQL_DATABASE=mydb
       - MYSQL_USER=admin
       - MYSQL_ROOT_PASSWORD=admin
      volumes:
-      - ~/backend_pic:/public/product-images
-      
-     
+      - ~/backend_pic:/public/product-images   
 networks:
     default:
         external:
