@@ -26,7 +26,7 @@ import int221.project.repositories.ProductsJpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://52.187.120.198:8080" )
+@CrossOrigin(origins = "http://52.187.120.198:8080")
 @RestController
 public class ProductsRestController {
 	@Autowired
@@ -58,10 +58,15 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
-		product.setPathPic(product.getName() + imageFile.getOriginalFilename());
+		if (imageFile.getContentType().equals("image/png")) {
+			product.setImageName(product.getName()+".png");
+		}
+		else if (imageFile.getContentType().equals("image/jpeg")) {
+			product.setImageName(product.getName()+".jpg");
+		} else product.setImageName("error");
 		productsJpaRepository.save(product);
 		try {
-			ES.saveImage(imageFile, product.getPathPic());
+			ES.saveImage(imageFile, product.getImageName());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -77,7 +82,7 @@ public class ProductsRestController {
 		}
 		productsJpaRepository.deleteById(id);
 		try {
-			ES.deleteImage(product.getPathPic());
+			ES.deleteImage(product.getImageName());
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("delete error");
@@ -93,7 +98,8 @@ public class ProductsRestController {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DOES_NOT_FIND_ID,
 					"id: {" + id + "} Does not fine Id!!");
 		}
-		if (productsJpaRepository.findByName(product.getName()) != null && productsJpaRepository.findByName(product.getName()).getProductId() != product.getProductId() ) {
+		if (productsJpaRepository.findByName(product.getName()) != null
+				&& productsJpaRepository.findByName(product.getName()).getProductId() != product.getProductId()) {
 			throw new AllException(ExceptionResponse.ERROR_CODE.DUPICATE_IN_PRODUCTS,
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
@@ -108,16 +114,21 @@ public class ProductsRestController {
 			existedProduct.setBrand(product.getBrand());
 			existedProduct.setColor(product.getColor());
 			if (imageFile != null) {
+				if (imageFile.getContentType().equals("image/png")) {
+					existedProduct.setImageName(product.getName()+".png");
+				}
+				else if (imageFile.getContentType().equals("image/jpeg")) {
+					existedProduct.setImageName(product.getName()+".jpg");
+				} else product.setImageName("error");
 				try {
-					ES.deleteImage(existedProduct2.getPathPic());
-					existedProduct.setPathPic(product.getName() + imageFile.getOriginalFilename());
-					ES.saveImage(imageFile, existedProduct.getPathPic());
+					ES.deleteImage(existedProduct2.getImageName());
+					ES.saveImage(imageFile, existedProduct.getImageName());
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("put error");
 				}
 			}
-			product.setPathPic(null);
+			product.setImageName(null);
 			return productsJpaRepository.save(existedProduct);
 		}
 		return null;
@@ -130,5 +141,4 @@ public class ProductsRestController {
 		Page<Product> pageResult = productsJpaRepository.findAll(pageable);
 		return pageResult.getContent();
 	}
-
 }

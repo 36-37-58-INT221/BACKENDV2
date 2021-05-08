@@ -19,12 +19,12 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int productId;
-	private String pathPic;
+	private String imageName;
 	private String name;
 	private String description;
 
 	@ManyToMany
-	@JoinTable(name = "HaveColor", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "colorId"))
+	@JoinTable(name = "haveColor", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "colorId"))
 	private List<Color> color;
 
 	private int price;
@@ -38,11 +38,11 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(int productId, String pathPic, String name, String description, List<Color> color, int price,
+	public Product(int productId, String imageName, String name, String description, List<Color> color, int price,
 			Brand brand, Date manufactureDate) {
 		super();
 		this.productId = productId;
-		this.pathPic = pathPic;
+		this.imageName = imageName;
 		this.name = name;
 		this.description = description;
 		this.color = color;
@@ -59,12 +59,12 @@ public class Product {
 		this.productId = productId;
 	}
 
-	public String getPathPic() {
-		return pathPic;
+	public String getImageName() {
+		return imageName;
 	}
 
-	public void setPathPic(String pathPic) {
-		this.pathPic = pathPic;
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
 	}
 
 	public String getName() {
@@ -114,5 +114,4 @@ public class Product {
 	public void setManufactureDate(Date manufactureDate) {
 		this.manufactureDate = manufactureDate;
 	}
-
 }
