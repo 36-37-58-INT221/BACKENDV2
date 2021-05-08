@@ -1,6 +1,6 @@
 version: "3"
 services:
-  backend:
+  backend2:
     build: .
     image: backend
     ports: 
