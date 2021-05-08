@@ -10,7 +10,7 @@ services:
       - MYSQL_USER=admin
       - MYSQL_ROOT_PASSWORD=admin
     volumes:
-      - ~/backend_data:/public/product-img
+      - ~/backend_data:/public/product-images
 networks:
   default:
     external:
