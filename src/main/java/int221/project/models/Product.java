@@ -38,7 +38,7 @@ public class Product {
 	public Product() {
 	}
 
-	public Product(int productId, String imageName, String name, String description, List<Color> color, int price,
+	public Product(int productId, String imageName, String name, String description, List<Color> color, double price,
 			Brand brand, Date manufactureDate) {
 		super();
 		this.productId = productId;
@@ -95,7 +95,7 @@ public class Product {
 		return price;
 	}
 
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 
