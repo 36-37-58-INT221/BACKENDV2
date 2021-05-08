@@ -27,7 +27,7 @@ public class Product {
 	@JoinTable(name = "HaveColor", joinColumns = @JoinColumn(name = "productId"), inverseJoinColumns = @JoinColumn(name = "colorId"))
 	private List<Color> color;
 
-	private int price;
+	private double price;
 
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "brandid", nullable = false)
@@ -91,7 +91,7 @@ public class Product {
 		this.color = color;
 	}
 
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
 
