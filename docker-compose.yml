@@ -3,6 +3,8 @@ services:
   backend:
     build: .
     image: backend
+     ports: 
+      - "3000:3000"
     container_name: backend
     environment:
       - MYSQL_DATABASE=mydb
