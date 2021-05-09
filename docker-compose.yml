@@ -7,7 +7,7 @@ services:
       - "3000:3000"
     container_name: backend
     environment:
-      - MYSQL_DATABASE=mydb
+      - MYSQL_DATABASE=int221
       - MYSQL_USER=admin
       - MYSQL_ROOT_PASSWORD=admin
     volumes:
