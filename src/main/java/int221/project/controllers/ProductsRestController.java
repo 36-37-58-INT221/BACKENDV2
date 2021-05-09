@@ -59,11 +59,13 @@ public class ProductsRestController {
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
 		if (imageFile.getContentType().equals("image/png")) {
-			product.setImageName(product.getName()+".png");
+			product.setImageName(product.getName() + ".png");
+		} else if (imageFile.getContentType().equals("image/jpeg")) {
+			product.setImageName(product.getName() + ".jpg");
+		} else {
+			throw new AllException(ExceptionResponse.ERROR_CODE.CAN_NOT_UPLOAD_THIS_FILETYPE,
+					"can upload png and jpg only");
 		}
-		else if (imageFile.getContentType().equals("image/jpeg")) {
-			product.setImageName(product.getName()+".jpg");
-		} else product.setImageName("error");
 		productsJpaRepository.save(product);
 		try {
 			ES.saveImage(imageFile, product.getImageName());
@@ -88,7 +90,7 @@ public class ProductsRestController {
 			System.out.println("delete error");
 		}
 
-		return "redirect:/products";
+		return "Delete Success";
 	};
 
 	@PutMapping("/products/put/{id}")
@@ -115,11 +117,13 @@ public class ProductsRestController {
 			existedProduct.setColor(product.getColor());
 			if (imageFile != null) {
 				if (imageFile.getContentType().equals("image/png")) {
-					existedProduct.setImageName(product.getName()+".png");
+					existedProduct.setImageName(product.getName() + ".png");
+				} else if (imageFile.getContentType().equals("image/jpeg")) {
+					existedProduct.setImageName(product.getName() + ".jpg");
+				} else {
+					throw new AllException(ExceptionResponse.ERROR_CODE.CAN_NOT_UPLOAD_THIS_FILETYPE,
+							"can upload png and jpg only");
 				}
-				else if (imageFile.getContentType().equals("image/jpeg")) {
-					existedProduct.setImageName(product.getName()+".jpg");
-				} else product.setImageName("error");
 				try {
 					ES.deleteImage(existedProduct2.getImageName());
 					ES.saveImage(imageFile, existedProduct.getImageName());

@@ -6,16 +6,16 @@ import java.time.LocalDateTime;
 public class ExceptionResponse {
 
 	public static enum ERROR_CODE {
-		PRODUCT_DOES_NOT_EXIST, PRODUCT_ALREADY_EXIST, DOES_NOT_FIND_ID, DUPICATE_IN_PRODUCTS;
+		PRODUCT_DOES_NOT_EXIST, PRODUCT_ALREADY_EXIST, DOES_NOT_FIND_ID, DUPICATE_IN_PRODUCTS , CAN_NOT_UPLOAD_THIS_FILETYPE;
 
-		private String id;
+//		private String id;
 
 		ERROR_CODE() {
 		};
 
-		ERROR_CODE(String id) {
-			this.id = id;
-		}
+//		ERROR_CODE(String id) {
+//			this.id = id;
+//		}
 	}
 
 	private ERROR_CODE errorCode;
