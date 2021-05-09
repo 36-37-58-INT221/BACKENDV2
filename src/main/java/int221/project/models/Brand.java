@@ -2,7 +2,6 @@ package int221.project.models;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +18,7 @@ public class Brand {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int brandId;
 	private String name;
-	@OneToMany(orphanRemoval = true, mappedBy = "brand") // เป็น bidirectional mapping ที่ map กลับไปยัง table product
+	@OneToMany(orphanRemoval = true, mappedBy = "brand")
 	private List<Product> products;
 
 	public Brand() {

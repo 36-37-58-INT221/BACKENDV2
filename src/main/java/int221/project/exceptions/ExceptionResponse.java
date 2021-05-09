@@ -2,20 +2,15 @@ package int221.project.exceptions;
 
 import java.time.LocalDateTime;
 
-//Exception
 public class ExceptionResponse {
 
 	public static enum ERROR_CODE {
-		PRODUCT_DOES_NOT_EXIST, PRODUCT_ALREADY_EXIST, DOES_NOT_FIND_ID, DUPICATE_IN_PRODUCTS , CAN_NOT_UPLOAD_THIS_FILETYPE;
-
-//		private String id;
+		PRODUCT_DOES_NOT_EXIST, PRODUCT_ALREADY_EXIST, DOES_NOT_FIND_ID, DUPICATE_IN_PRODUCTS,
+		CAN_NOT_UPLOAD_THIS_FILETYPE;
 
 		ERROR_CODE() {
 		};
 
-//		ERROR_CODE(String id) {
-//			this.id = id;
-//		}
 	}
 
 	private ERROR_CODE errorCode;
