@@ -59,9 +59,9 @@ public class ProductsRestController {
 					"Name: {" + product.getName() + "} dupicate!!");
 		}
 		if (imageFile.getContentType().equals("image/png")) {
-			product.setImageName(product.getName() + ".png");
+			product.setImageName(ES.randomString(3)+product.getName() + ".png");
 		} else if (imageFile.getContentType().equals("image/jpeg")) {
-			product.setImageName(product.getName() + ".jpg");
+			product.setImageName(ES.randomString(3)+product.getName() + ".jpg");
 		} else {
 			throw new AllException(ExceptionResponse.ERROR_CODE.CAN_NOT_UPLOAD_THIS_FILETYPE,
 					"can upload png and jpg only");
