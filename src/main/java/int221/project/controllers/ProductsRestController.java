@@ -119,7 +119,7 @@ public class ProductsRestController {
 				try {
 					ES.deleteImage(existedProduct2.getImageName());
 					if (imageFile.getContentType().equals("image/png")) {
-						existedProduct.setImageName(product.getName() + ".png");
+						existedProduct.setImageName(ES.randomString(3)+product.getName() + ".png");
 					} else if (imageFile.getContentType().equals("image/jpeg")) {
 						existedProduct.setImageName(product.getName() + ".jpg");
 					} else {
