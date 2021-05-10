@@ -116,23 +116,22 @@ public class ProductsRestController {
 			existedProduct.setBrand(product.getBrand());
 			existedProduct.setColor(product.getColor());
 			if (imageFile != null) {
-				if (imageFile.getContentType().equals("image/png")) {
-					existedProduct.setImageName(product.getName() + ".png");
-				} else if (imageFile.getContentType().equals("image/jpeg")) {
-					existedProduct.setImageName(product.getName() + ".jpg");
-				} else {
-					throw new AllException(ExceptionResponse.ERROR_CODE.CAN_NOT_UPLOAD_THIS_FILETYPE,
-							"can upload png and jpg only");
-				}
 				try {
 					ES.deleteImage(existedProduct2.getImageName());
+					if (imageFile.getContentType().equals("image/png")) {
+						existedProduct.setImageName(product.getName() + ".png");
+					} else if (imageFile.getContentType().equals("image/jpeg")) {
+						existedProduct.setImageName(product.getName() + ".jpg");
+					} else {
+						throw new AllException(ExceptionResponse.ERROR_CODE.CAN_NOT_UPLOAD_THIS_FILETYPE,
+								"can upload png and jpg only");
+					}
 					ES.saveImage(imageFile, existedProduct.getImageName());
 				} catch (Exception e) {
 					e.printStackTrace();
 					System.out.println("put error");
 				}
 			}
-			product.setImageName(null);
 			return productsJpaRepository.save(existedProduct);
 		}
 		return null;
